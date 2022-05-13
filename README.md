@@ -3,7 +3,10 @@ Arduino snake game width 5110 Lcd
 
 ## Ekran Görüntüleri
 
-![Uygulama Ekran Görüntüsü](/image/proteus-screen.PNG)
+![Uygulama Logo Görüntüsü](/image/logo.png)
+
+![Uygulama Ekran Görüntüsü](/image/proteus-screen.png)
+
 
 ## İlgili Kaynaklar
 Download for project for all library

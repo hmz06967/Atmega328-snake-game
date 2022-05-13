@@ -4,15 +4,18 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_PCD8544.h>
 #include "src/logo_img.c"
+#include "src/snake_sn.c"
+#include "src/snakefont0.c"
 
-Adafruit_PCD8544 display = Adafruit_PCD8544(4,5,7,8,9);  //Initialise display object
+// Software SPI (slower updates, more flexible pin options):
+// pin 4 - Serial clock out (SCLK)
+// pin 5 - Serial data out (DIN)
+// pin 6 - Data/Command select (D/C)
+// pin 8 - LCD chip select (CS)
+// pin 9 - LCD reset (RST)
+
+Adafruit_PCD8544 display = Adafruit_PCD8544(4,5,6,8,9);  //Initialise display object
 //extern uint8_t logo_img[];
-// pin 7 - Serial clock out (SCLK)
-// pin 6 - Serial data out (DIN)
-// pin 5 - Data/Command select (D/C)
-// pin 4 - LCD chip select (CS)
-// pin 3 - LCD reset (RST)
-
 
 /********* constants *******/
 #define LEFT 8
@@ -23,6 +26,7 @@ Adafruit_PCD8544 display = Adafruit_PCD8544(4,5,7,8,9);  //Initialise display ob
 #define MAX_WIDTH 84        //display 84x48
 #define MAX_HEIGHT 48
 #define speakerPin 2
+#define BLACK 1
 
 boolean dl=false,dr=false,du=false,dd=false;   // to check in which direction the snake is currently moving
 
@@ -41,9 +45,11 @@ int score=0,flag=0;
 void setup()
 {
      //Begin Serial Communication
-  display.begin();
-    display.setContrast(50);
+  Serial.begin(9600);
   display.clearDisplay();
+  display.begin();
+  
+  display.setContrast(75);
   
   pinMode(LEFT,INPUT);         //Directional keys and pause
   pinMode(RIGHT,INPUT);
@@ -52,35 +58,36 @@ void setup()
   pinMode(PAUSE,INPUT);
   
   pinMode(speakerPin,OUTPUT);  //Buzzer pin
-   pinMode(3,OUTPUT);  //Buzzer pin
+  pinMode(3,OUTPUT);  //Buzzer pin
     
-  digitalWrite(LEFT,HIGH);     //Active low keys
+  /*digitalWrite(LEFT,HIGH);     //Active low keys
   digitalWrite(RIGHT,HIGH);
   digitalWrite(UP,HIGH);
   digitalWrite(DOWN,HIGH);
-  digitalWrite(PAUSE,HIGH);
+  digitalWrite(PAUSE,HIGH);*/
   digitalWrite(3,120);
   
-
+  Serial.println("good point snake..");
+  
+  display.setTextSize(1);          //Initial Display
+  display.setTextColor(1);
+  display.setCursor(10,15);
+  display.print("flyozk");
+  display.setCursor(10,40);
+  display.print("test");
+  display.display();
+  
   slength=8;                 //Start with snake length 8
   
   xegg=(display.width())/2;
   
   yegg=(display.height())/2;
+
+
+//display.drawBitmap(0,0,logo_img,84,48,8);
+//display.display();  
   
-  /*display.setTextSize(2);          //Initial Display
-  display.setTextColor(BLACK);
-  display.setCursor(10,15);
-  display.print("rishabh");
-  display.setCursor(10,40);
-  display.print("jjjj");
-  display.display();
-  */
-  
-  // display.drawBitmap(0,0,logo_img,84,48,8);
-  // display.display();  
-  
-  delay(4000);
+//delay(4000);
 
   for(i=0;i<=slength;i++)      //Set starting coordinates of snake
   {
@@ -89,13 +96,15 @@ void setup()
   }
   
   for(i=0;i<slength;i++)         //Draw the snake
-   {
-   display.drawCircle(x[i],y[i],1,BLACK);
+  {
+    display.drawCircle(x[i],y[i],1,BLACK);
   }
+
+  Serial.print("speed: ");
+  Serial.println(time);
   
   display.display();
-  dr=true;    //Going to move right initially
-  
+  dr=true;    //Going to move right initially*/
 }
 
 
@@ -121,9 +130,6 @@ void movesnake()
                //flag would be set to 1 so that direction is not changed multiple times in a short duration
   }
   
-  
-
-
   if(millis()%time==0)     //this condition becomes true after every 'time' milliseconds...millis() returns the time since launch of program
   {
        
