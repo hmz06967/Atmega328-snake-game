@@ -1,7 +1,7 @@
 # Atmega328-snake-game
 Arduino snake game width 5110 Lcd 
 
-The classic game of the old nokia 3310 series is now on Arduino!
+The classic game of the old Snake 2, nokia 3310 series is now on Arduino!
 
 ## Ekran Görüntüleri
 
