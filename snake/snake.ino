@@ -6,7 +6,7 @@
 #include "src/logo_img.c"
 
 Adafruit_PCD8544 display = Adafruit_PCD8544(4,5,7,8,9);  //Initialise display object
-extern uint8_t logo_img[];
+//extern uint8_t logo_img[];
 // pin 7 - Serial clock out (SCLK)
 // pin 6 - Serial data out (DIN)
 // pin 5 - Data/Command select (D/C)
