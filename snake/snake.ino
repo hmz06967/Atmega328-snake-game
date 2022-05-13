@@ -3,7 +3,7 @@
 #include <EEPROM.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_PCD8544.h>
-
+#include "src/logo_img.c"
 
 Adafruit_PCD8544 display = Adafruit_PCD8544(4,5,7,8,9);  //Initialise display object
 extern uint8_t logo_img[];
